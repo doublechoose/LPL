@@ -1,0 +1,5 @@
+setup.py
+wsdk.egg-info/PKG-INFO
+wsdk.egg-info/SOURCES.txt
+wsdk.egg-info/dependency_links.txt
+wsdk.egg-info/top_level.txt

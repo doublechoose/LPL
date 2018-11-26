@@ -1,0 +1,6 @@
+
+python/aboutpypiserver/packages/*
+python/venv/*
+
+
+python/.vscode/*
