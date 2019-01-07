@@ -1,0 +1,26 @@
+{
+    "header": {
+        "version": "5.3",
+        "date": "2018-12-27T05:52:50.126491Z",
+        "session": "d8dc56f4-795dc4b05754ec697a63c6b3",
+        "username": "username",
+        "msg_type": "status",
+        "msg_id": "f6987815-808d7df603a182c909a59970"
+    },
+    "msg_id": "f6987815-808d7df603a182c909a59970",
+    "msg_type": "status",
+    "parent_header": {
+        "msg_id": "39f9e4cbd29c48d08f5a501395e349e6",
+        "username": "username",
+        "session": "f86bd6af1c03453c8b55860e775a737e",
+        "msg_type": "execute_request",
+        "version": "5.2",
+        "date": "2018-12-27T05:52:50.124491Z"
+    },
+    "metadata": {},
+    "content": {
+        "execution_state": "busy"
+    },
+    "buffers": [],
+    "channel": "iopub"
+}

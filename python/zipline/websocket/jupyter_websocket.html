@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>tornado WebSocket example</title>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./serialize.js"></script>
+  <script type="text/javascript" src="./utils.js"></script>
+  <!-- <script type="text/javascript" src="./handle_msg.js"></script> -->
+
+</head>
+
+<body>
+  <div class="container">
+    <h1>tornado WebSocket example</h1>
+    <hr>
+    WebSocket status : <span id="message"></span>
+    <hr>
+    <h3>The following string shows values by using WebSocket</h3>
+
+    <span id="content">
+
+    </span>
+
+    <hr>
+    <ul>
+      <li>value 201 - 500 : change to yellow</li>
+      <li>value 501 - : change to red</li>
+    </ul>
+  </div>
+  <script>
+    
+    msg = {
+      "header": {
+        "msg_id": "39f9e4cbd29c48d08f5a501395e349e6",
+        "username": "username",
+        "session": "f86bd6af1c03453c8b55860e775a737e",
+        "msg_type": "execute_request",
+        "version": "5.2"
+      },
+      "metadata": {},
+      "content": {
+        "code": "print(\"pudong\")",
+        "silent": false,
+        "store_history": true,
+        "user_expressions": {},
+        "allow_stdin": true,
+        "stop_on_error": true
+      },
+      "buffers": [],
+      "parent_header": {},
+      "channel": "shell"
+    };
+    ws_url = 'ws://localhost:8888';
+    kernel_id = '65b9216c-e76a-45e6-82c7-f90ba91e0bfc';
+    kernel_url = "/api/kernels/"+kernel_id;
+    session_id = uuid();
+
+    ws = new this.WebSocket([
+      ws_url,
+      url_path_join(kernel_url, 'channels'),
+      "?session_id=" + session_id
+    ].join(''));
+
+    _msg_queue = Promise.resolve();
+    
+    var $message = $('#message');
+
+    ws.onopen = function () {
+      $message.attr("class", 'label label-success');
+      $message.text('open');
+
+      ws.send(serialize(msg))
+    };
+    ws.onmessage = function (ev) {
+      $message.attr("class", 'label label-info');
+      $message.hide();
+      $message.fadeIn("slow");
+      $message.text('recieved message');
+
+      _msg_queue = _msg_queue.then(function(){
+        return deserialize(ev.data);
+      }).then(function(msg){
+        console.log(msg);
+        // return 
+      }).catch(function(error){
+        console.error("Couldn't process kernel message", error);
+      });
+
+      var json = deserialize(ev.data);
+      var $content = $('#content');
+      $content.text(json);
+    };
+    ws.onclose = function (ev) {
+      $message.attr("class", 'label label-important');
+      $message.text('closed');
+    };
+    ws.onerror = function (ev) {
+      $message.attr("class", 'label label-warning');
+      $message.text('error occurred');
+    };
+  </script>
+</body>
+
+</html>
