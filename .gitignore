@@ -12,3 +12,7 @@ python/zipline/venv/*
 python/zipline/.vscode/*
 python/zipline/node_modules/*
 *.exe
+.vscode/*
+*.o
+*.gch
+
